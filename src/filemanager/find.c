@@ -118,16 +118,6 @@ static int find_do_edit_file (WButton * button, int action);
 /* Parsed ignore dirs */
 static char **find_ignore_dirs = NULL;
 
-/* Size of the find parameters window */
-#ifdef HAVE_CHARSET
-static int FIND_Y = 19;
-#else
-static int FIND_Y = 18;
-#endif
-static int FIND_X = 68;
-
-static int FIND2_X = 64;
-
 /* static variables to remember find parameters */
 static WInput *in_start;        /* Start path */
 static WInput *in_name;         /* Filename */
@@ -545,7 +535,6 @@ find_parameters (char **start_dir, ssize_t * start_dir_len,
     /* column width */
     int cw;
 
-    int cbox_position;
     gboolean disable;
 
 #ifdef ENABLE_NLS
@@ -647,10 +636,6 @@ find_parameters (char **start_dir, ssize_t * start_dir_len,
 
     y2 = y1;
 
-    cbox_position = FIND_Y - 5;
-
-    only_directories_cbox = check_new (cbox_position--, 3, options.only_directories, file_only_directories_label);
-    add_widget (find_dlg, only_directories_cbox);
 
     /* Start 1st column */
     add_widget (find_dlg, label_new (y1++, x1, file_name_label));
@@ -658,7 +643,7 @@ find_parameters (char **start_dir, ssize_t * start_dir_len,
         input_new (y1++, x1, input_get_default_colors (), cw, INPUT_LAST_TEXT, "name",
                    INPUT_COMPLETE_FILENAMES | INPUT_COMPLETE_CD);
     add_widget (find_dlg, in_name);
-
+    
     /* Start 2nd column */
     content_label = label_new (y2++, x2, content_content_label);
     add_widget (find_dlg, content_label);
@@ -676,6 +661,9 @@ find_parameters (char **start_dir, ssize_t * start_dir_len,
     recursively_cbox = check_new (y1++, x1, options.find_recurs, file_recurs_label);
     add_widget (find_dlg, recursively_cbox);
 
+    only_directories_cbox = check_new (y1++, x1, options.only_directories, file_only_directories_label);
+    add_widget (find_dlg, only_directories_cbox);    
+    
     file_pattern_cbox = check_new (y1++, x1, options.file_pattern, file_pattern_label);
     add_widget (find_dlg, file_pattern_cbox);
 
